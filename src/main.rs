@@ -1,9 +1,14 @@
 use actix_web::{App, HttpServer, Responder, get};
+use clap::Parser;
+
+mod cli;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    let args = cli::Args::parse();
+    let port = args.port;
     HttpServer::new(|| App::new().service(index))
-        .bind("localhost:8080")?
+        .bind(format!("localhost:{port}"))?
         .run()
         .await
 }
