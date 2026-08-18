@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-actix-web = { git = "https://v6.gh-proxy.org/https://github.com/actix/actix-web.git", rev = "4d435abc281842f3cbee165b6cde739e001d3a25" } # 4.14.1
+actix-web = "4.14.1"
 clap = { version = "4.6.6", features = ["derive"] }
