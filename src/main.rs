@@ -1,3 +1,4 @@
+use actix_files::Files;
 use actix_web::{App, HttpServer, Responder, get};
 use clap::Parser;
 
@@ -8,10 +9,14 @@ async fn main() -> std::io::Result<()> {
     let args = cli::Args::parse();
     let port = args.port;
     println!("Listening on port {port}");
-    HttpServer::new(|| App::new().service(index))
-        .bind(format!("localhost:{port}"))?
-        .run()
-        .await
+    HttpServer::new(|| {
+        App::new()
+            .service(index)
+            .service(Files::new("/login", "../pages"))
+    })
+    .bind(format!("localhost:{port}"))?
+    .run()
+    .await
 }
 
 #[get("/")]
