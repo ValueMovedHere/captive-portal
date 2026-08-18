@@ -1,5 +1,5 @@
 use actix_files::Files;
-use actix_web::{App, HttpServer, Responder, get};
+use actix_web::{App, HttpServer, Responder, get, web};
 use clap::Parser;
 
 mod cli;
@@ -21,5 +21,5 @@ async fn main() -> std::io::Result<()> {
 
 #[get("/")]
 async fn index() -> impl Responder {
-    "Hello, World"
+    web::Redirect::to("/login")
 }
