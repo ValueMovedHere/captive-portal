@@ -1,6 +1,7 @@
 use actix_files::Files;
 use actix_web::{App, HttpServer, Responder, get, web};
 use clap::Parser;
+use colored::Colorize;
 
 mod cli;
 
@@ -8,7 +9,7 @@ mod cli;
 async fn main() -> std::io::Result<()> {
     let args = cli::Args::parse();
     let port = args.port;
-    println!("Listening on port {port}");
+    println!("Listening on port {port}".green().bold());
     HttpServer::new(|| {
         App::new()
             .service(index)
