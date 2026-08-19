@@ -12,7 +12,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(index)
-            .service(Files::new("/login", "../pages"))
+            .service(Files::new("/login", "./pages"))
     })
     .bind(format!("localhost:{port}"))?
     .run()
