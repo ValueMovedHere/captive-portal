@@ -23,5 +23,5 @@ async fn main() -> std::io::Result<()> {
 
 #[get("/")]
 async fn index() -> impl Responder {
-    web::Redirect::to("/login")
+    web::Redirect::to("/login/index.html")
 }
