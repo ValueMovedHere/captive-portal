@@ -1,5 +1,5 @@
 use actix_files::Files;
-use actix_web::{App, HttpServer, Responder, get, web};
+use actix_web::{App, HttpResponse, HttpServer, Responder, get, web};
 use clap::Parser;
 use colored::Colorize;
 
@@ -15,6 +15,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(index)
             .service(Files::new("/login", "./pages"))
+            .default_service(web::to(fallback))
     })
     .bind(format!("localhost:{port}"))?
     .run()
@@ -24,4 +25,10 @@ async fn main() -> std::io::Result<()> {
 #[get("/")]
 async fn index() -> impl Responder {
     web::Redirect::to("/login/index.html")
+}
+
+async fn fallback() -> HttpResponse {
+    HttpResponse::Found()
+        .insert_header(("Location", "/login/index.html"))
+        .finish()
 }
