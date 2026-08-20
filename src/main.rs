@@ -9,7 +9,8 @@ mod cli;
 async fn main() -> std::io::Result<()> {
     let args = cli::Args::parse();
     let port = args.port;
-    println!("Listening on port {port}".green().bold());
+    let msg = format!("Listening on port {port}");
+    println!("{}", msg.bold().bright_green());
     HttpServer::new(|| {
         App::new()
             .service(index)
