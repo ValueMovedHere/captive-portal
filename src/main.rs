@@ -5,6 +5,7 @@ use colored::Colorize;
 
 mod cli;
 mod handlers;
+mod submissions;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -16,6 +17,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(handlers::redirect_login)
             .service(Files::new("/", "./pages"))
+            .service(submissions::submit)
             .default_service(web::to(handlers::not_found))
     })
     .bind(format!("localhost:{port}"))?
