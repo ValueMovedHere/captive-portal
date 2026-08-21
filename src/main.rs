@@ -29,6 +29,6 @@ async fn index() -> impl Responder {
 
 async fn fallback() -> HttpResponse {
     HttpResponse::Found()
-        .insert_header(("Location", "/login/login.html"))
+        .insert_header(("Location", "/not_found.html"))
         .finish()
 }
