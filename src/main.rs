@@ -1,9 +1,10 @@
 use actix_files::Files;
-use actix_web::{App, HttpResponse, HttpServer, Responder, get, web};
+use actix_web::{App, HttpServer, web};
 use clap::Parser;
 use colored::Colorize;
 
 mod cli;
+mod handlers;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -13,22 +14,11 @@ async fn main() -> std::io::Result<()> {
     println!("{}", msg.bold().bright_green());
     HttpServer::new(|| {
         App::new()
-            .service(index)
+            .service(handlers::redirect_login)
             .service(Files::new("/login", "./pages"))
-            .default_service(web::to(fallback))
+            .default_service(web::to(handlers::not_found))
     })
     .bind(format!("localhost:{port}"))?
     .run()
     .await
-}
-
-#[get("/")]
-async fn index() -> impl Responder {
-    web::Redirect::to("/login/login.html")
-}
-
-async fn fallback() -> HttpResponse {
-    HttpResponse::Found()
-        .insert_header(("Location", "/not_found.html"))
-        .finish()
 }
