@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>已连接 · 可以上网</title>
+    <style>
+        /* ========== 基础重置 & 全局变量 ========== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', Consolas, monospace;
+            --theme-transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            --space-xl: 6rem;
+            --radius: 12px;
+            --radius-sm: 6px;
+        }
+
+        /* ===== 深色主题 (默认) ===== */
+        [data-theme="dark"] {
+            --bg-primary: #0b0d12;
+            --bg-secondary: #13161e;
+            --text-primary: #f0f4ff;
+            --text-secondary: #9aa4bf;
+            --text-inverse: #0b0d12;
+            --accent: #4a9eff;
+            --accent-hover: #6cb3ff;
+            --accent-glow: rgba(74, 158, 255, 0.25);
+            --success: #34d399;
+            --success-glow: rgba(52, 211, 153, 0.20);
+            --border-color: rgba(255, 255, 255, 0.06);
+            --grid-color: rgba(255, 255, 255, 0.04);
+            --glow-color: rgba(74, 158, 255, 0.12);
+            --toggle-bg: #1e2330;
+            --toggle-icon: '🌙';
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --card-border: rgba(255, 255, 255, 0.06);
+        }
+
+        /* ===== 浅色主题 ===== */
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f4f6fc;
+            --text-primary: #0b0d12;
+            --text-secondary: #5a6278;
+            --text-inverse: #ffffff;
+            --accent: #1a5cff;
+            --accent-hover: #0044e0;
+            --accent-glow: rgba(26, 92, 255, 0.15);
+            --success: #0f9d58;
+            --success-glow: rgba(15, 157, 88, 0.18);
+            --border-color: rgba(0, 0, 0, 0.06);
+            --grid-color: rgba(0, 0, 0, 0.04);
+            --glow-color: rgba(26, 92, 255, 0.08);
+            --toggle-bg: #e8ecf5;
+            --toggle-icon: '☀️';
+            --card-bg: rgba(0, 0, 0, 0.01);
+            --card-border: rgba(0, 0, 0, 0.06);
+        }
+
+        /* ========== 基础样式 ========== */
+        html,
+        body {
+            height: 100%;
+            font-family: var(--font-sans);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: var(--theme-transition);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-md);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ========== 背景网格 ========== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 48px 48px;
+            transition: var(--theme-transition);
+        }
+
+        /* ===== 光晕装饰 ===== */
+        body::after {
+            content: '';
+            position: fixed;
+            top: -30%;
+            right: -20%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle at center, var(--glow-color) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            transition: var(--theme-transition);
+            border-radius: 50%;
+        }
+
+        /* ========== 主容器 ========== */
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            max-width: 680px;
+            width: 100%;
+            padding: var(--space-lg) var(--space-md);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            box-shadow: 0 8px 48px rgba(0, 0, 0, 0.08);
+            transition: var(--theme-transition);
+        }
+
+        /* ========== 成功图标 (对勾) ========== */
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-md);
+            box-shadow: 0 0 60px var(--success-glow), 0 0 30px var(--success-glow);
+            transition: var(--theme-transition);
+            flex-shrink: 0;
+        }
+
+        .success-icon svg {
+            width: 44px;
+            height: 44px;
+            fill: none;
+            stroke: var(--text-inverse);
+            stroke-width: 3.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ========== 状态文字 ========== */
+        .status-title {
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+            letter-spacing: -0.01em;
+            transition: var(--theme-transition);
+        }
+
+        .status-desc {
+            font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+            color: var(--text-secondary);
+            max-width: 420px;
+            line-height: 1.7;
+            margin-bottom: var(--space-sm);
+            transition: var(--theme-transition);
+        }
+
+        /* 连接信息 (小标签) */
+        .connection-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 1rem;
+            border-radius: 100px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+            transition: var(--theme-transition);
+            margin-top: var(--space-xs);
+        }
+
+        .connection-meta .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success-glow);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(0.85);
+            }
+        }
+
+        /* ========== 底部脚标 ========== */
+        .footer-meta {
+            margin-top: var(--space-lg);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.04em;
+            opacity: 0.5;
+            transition: var(--theme-transition);
+            font-family: var(--font-mono);
+        }
+
+        .footer-meta span {
+            display: inline-block;
+            position: relative;
+        }
+
+        .footer-meta span::before {
+            content: '// ';
+            opacity: 0.4;
+        }
+
+        /* ========== 主题切换按钮 ========== */
+        .theme-toggle {
+            position: fixed;
+            top: var(--space-md);
+            right: var(--space-md);
+            z-index: 100;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--toggle-bg);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-size: 1.3rem;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--theme-transition), transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            color: var(--text-primary);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .theme-toggle .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        /* ========== 响应式 ========== */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--space-sm);
+            }
+
+            .container {
+                padding: var(--space-md) var(--space-sm);
+                border-radius: var(--radius-sm);
+            }
+
+            .success-icon {
+                width: 64px;
+                height: 64px;
+            }
+
+            .success-icon svg {
+                width: 36px;
+                height: 36px;
+            }
+
+            .theme-toggle {
+                top: var(--space-sm);
+                right: var(--space-sm);
+                width: 42px;
+                height: 42px;
+                font-size: 1.1rem;
+            }
+
+            .status-title {
+                font-size: clamp(1.2rem, 4vw, 1.6rem);
+            }
+
+            .status-desc {
+                font-size: clamp(0.85rem, 2.5vw, 1rem);
+                padding: 0 var(--space-xs);
+            }
+
+            .footer-meta {
+                margin-top: var(--space-md);
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .container {
+                padding: var(--space-sm) var(--space-xs);
+                border: none;
+                background: transparent;
+                backdrop-filter: none;
+                box-shadow: none;
+            }
+
+            .success-icon {
+                width: 56px;
+                height: 56px;
+            }
+
+            .success-icon svg {
+                width: 30px;
+                height: 30px;
+            }
+
+            .theme-toggle {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+                top: 0.6rem;
+                right: 0.6rem;
+            }
+
+            .connection-meta {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.8rem;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .container {
+                padding: var(--space-xl) var(--space-lg);
+                max-width: 780px;
+            }
+
+            .status-title {
+                font-size: 2.5rem;
+            }
+
+            .status-desc {
+                font-size: 1.2rem;
+                max-width: 500px;
+            }
+
+            .success-icon {
+                width: 96px;
+                height: 96px;
+            }
+
+            .success-icon svg {
+                width: 52px;
+                height: 52px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @media (prefers-contrast: high) {
+            [data-theme="dark"] {
+                --text-secondary: #d0d8e8;
+                --border-color: rgba(255, 255, 255, 0.15);
+                --grid-color: rgba(255, 255, 255, 0.08);
+                --card-border: rgba(255, 255, 255, 0.15);
+                --success: #2dd4a0;
+            }
+
+            [data-theme="light"] {
+                --text-secondary: #2a2f3a;
+                --border-color: rgba(0, 0, 0, 0.15);
+                --grid-color: rgba(0, 0, 0, 0.08);
+                --card-border: rgba(0, 0, 0, 0.15);
+                --success: #0b7a43;
+            }
+
+            .success-icon {
+                box-shadow: none;
+                border: 2px solid currentColor;
+            }
+        }
+
+        @media print {
+            .theme-toggle {
+                display: none !important;
+            }
+
+            body::before,
+            body::after {
+                display: none !important;
+            }
+
+            .container {
+                border: 1px solid #ccc;
+                box-shadow: none;
+                backdrop-filter: none;
+                background: #fff;
+                color: #000;
+            }
+
+            .success-icon {
+                background: #eee;
+                border: 1px solid #999;
+                box-shadow: none;
+            }
+
+            .success-icon svg {
+                stroke: #000;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== 主题切换按钮 ========== -->
+    <button class="theme-toggle" id="themeToggle" aria-label="切换深色/浅色主题" title="切换主题">
+        <span class="icon" id="toggleIcon">🌙</span>
+    </button>
+
+    <!-- ========== 主内容区 ========== -->
+    <main class="container" role="main">
+
+        <!-- 成功图标 (对勾) -->
+        <div class="success-icon" aria-label="连接成功">
+            <svg viewBox="0 0 24 24">
+                <polyline points="4 13 9 18 20 7" />
+            </svg>
+        </div>
+
+        <!-- 状态信息 -->
+        <h1 class="status-title">登录成功，可以上网</h1>
+        <p class="status-desc">
+            您已成功接入互联网，现在可以自由访问所有网络资源。<br>
+            请保持连接稳定，尽情使用。
+        </p>
+
+        <!-- 连接状态标签 -->
+        <div class="connection-meta">
+            <span class="dot"></span>
+            <span>已连接 · 在线</span>
+        </div>
+
+        <!-- 装饰性脚标 -->
+        <div class="footer-meta">
+            <span>captive portal · 认证通过</span>
+        </div>
+
+    </main>
+
+    <!-- ========== 极简 JavaScript (仅主题切换) ========== -->
+    <script>
+        (function() {
+            'use strict';
+
+            const html = document.documentElement;
+            const toggleBtn = document.getElementById('themeToggle');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            function getCurrentTheme() {
+                return html.getAttribute('data-theme') || 'dark';
+            }
+
+            function getIconForTheme(theme) {
+                return theme === 'dark' ? '🌙' : '☀️';
+            }
+
+            function toggleTheme() {
+                const current = getCurrentTheme();
+                const next = current === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', next);
+                toggleIcon.textContent = getIconForTheme(next);
+                try {
+                    localStorage.setItem('theme-preference', next);
+                } catch (_) {}
+            }
+
+            function loadSavedTheme() {
+                try {
+                    const saved = localStorage.getItem('theme-preference');
+                    if (saved === 'dark' || saved === 'light') {
+                        html.setAttribute('data-theme', saved);
+                        toggleIcon.textContent = getIconForTheme(saved);
+                    }
+                } catch (_) {}
+            }
+
+            let mediaQuery = null;
+
+            function watchSystemTheme() {
+                mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+                const handler = function(e) {
+                    try {
+                        const saved = localStorage.getItem('theme-preference');
+                        if (saved) return;
+                    } catch (_) {}
+                    const theme = e.matches ? 'dark' : 'light';
+                    html.setAttribute('data-theme', theme);
+                    toggleIcon.textContent = getIconForTheme(theme);
+                };
+                if (mediaQuery.addEventListener) {
+                    mediaQuery.addEventListener('change', handler);
+                } else if (mediaQuery.addListener) {
+                    mediaQuery.addListener(handler);
+                }
+                try {
+                    const saved = localStorage.getItem('theme-preference');
+                    if (!saved) handler(mediaQuery);
+                } catch (_) {
+                    handler(mediaQuery);
+                }
+            }
+
+            toggleBtn.addEventListener('click', toggleTheme);
+            loadSavedTheme();
+            watchSystemTheme();
+
+            const initTheme = getCurrentTheme();
+            toggleIcon.textContent = getIconForTheme(initTheme);
+        })();
+    </script>
+
+</body>
+</html>
