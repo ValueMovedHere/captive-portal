@@ -24,11 +24,11 @@ async fn main() -> std::io::Result<()> {
 
 #[get("/")]
 async fn index() -> impl Responder {
-    web::Redirect::to("/login/index.html")
+    web::Redirect::to("/login/login.html")
 }
 
 async fn fallback() -> HttpResponse {
     HttpResponse::Found()
-        .insert_header(("Location", "/login/index.html"))
+        .insert_header(("Location", "/login/login.html"))
         .finish()
 }
