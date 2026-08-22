@@ -1,4 +1,4 @@
-use actix_web::{HttpResponse, Responder, get, web};
+use actix_web::{HttpResponse, Responder, get, http::header, web};
 
 #[get("/")]
 pub async fn redirect_login() -> impl Responder {
@@ -7,6 +7,6 @@ pub async fn redirect_login() -> impl Responder {
 
 pub async fn not_found() -> HttpResponse {
     HttpResponse::Found()
-        .insert_header(("Location", "/login/not_found.html"))
+        .insert_header((header::LOCATION, "/login/not_found.html"))
         .finish()
 }
