@@ -2,7 +2,7 @@ use actix_web::{HttpResponse, Responder, get, http::header, web};
 
 #[get("/")]
 pub async fn redirect_login() -> impl Responder {
-    web::Redirect::to("/login/login.html")
+    web::Redirect::to("/login/index.html")
 }
 
 pub async fn not_found() -> HttpResponse {
