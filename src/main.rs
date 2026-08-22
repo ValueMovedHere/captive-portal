@@ -10,6 +10,7 @@ mod submissions;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let args = cli::Args::parse();
+    let addr = if args.local { "localhost" } else { "0.0.0.0" };
     let port = args.port;
     let pages_dir = args.pages_path;
     let msg = format!("Listening on port {port}");
@@ -21,7 +22,7 @@ async fn main() -> std::io::Result<()> {
             .service(Files::new("/login", &pages_dir))
             .default_service(web::to(handlers::not_found))
     })
-    .bind(format!("localhost:{port}"))?
+    .bind(format!("{addr}:{port}"))?
     .run()
     .await
 }
