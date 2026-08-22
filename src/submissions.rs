@@ -14,7 +14,7 @@ struct InfoForm {
 pub async fn submit(form: web::Form<InfoForm>) -> HttpResponse {
     println!("{}", "[!] New submission".bright_blue().bold());
     print!(
-        "\n{}: {}\n\t{}: {}\n\t{}: {}\n",
+        "\t{}: {}\n\t{}: {}\n\t{}: {}\n",
         "Name".bright_red().bold(),
         form.name,
         "Phone".bright_red().bold(),
