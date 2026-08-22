@@ -5,95 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>网络认证 · 安全接入</title>
     <style>
-        /* ===== 基础重置 & 变量 ===== */
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        /* ===== Reset ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+        /* ===== GitHub Primer 风格设计令牌 ===== */
         :root {
-            --bg-gradient: linear-gradient(145deg, #e8ecf5 0%, #d5dcec 100%);
-            --card-bg: rgba(255, 255, 255, 0.88);
-            --card-border: rgba(255, 255, 255, 0.50);
-            --card-shadow: 0 18px 50px rgba(28, 35, 64, 0.14), 0 6px 18px rgba(28, 35, 64, 0.08);
-            --text-primary: #1a1e2e;
-            --text-secondary: #4f5670;
-            --text-placeholder: #949ab0;
-            --label-color: #2d334d;
-            --input-bg: rgba(255, 255, 255, 0.70);
-            --input-border: #cdd2e2;
-            --input-border-focus: #4f6ef7;
-            --input-shadow-focus: 0 0 0 4px rgba(79, 110, 247, 0.15);
-            --btn-bg: linear-gradient(135deg, #4f6ef7, #6c4ff7);
-            --btn-shadow: 0 8px 24px rgba(79, 110, 247, 0.32);
-            --btn-hover-bg: linear-gradient(135deg, #3d5de6, #5d3de6);
-            --btn-shadow-hover: 0 10px 32px rgba(79, 110, 247, 0.42);
-            --link-color: #4f6ef7;
-            --link-hover: #3d5de6;
-            --checkbox-border: #bcc3d8;
-            --checkbox-checked-bg: #4f6ef7;
-            --checkbox-checked-border: #4f6ef7;
-            --icon-color: #4f6ef7;
-            --divider-color: rgba(0, 0, 0, 0.06);
-            --toggle-bg: rgba(0, 0, 0, 0.06);
-            --toggle-hover: rgba(0, 0, 0, 0.10);
-            --footer-text: #7a82a0;
-            --error-color: #e74c6f;
-            --success-color: #2ecc8a;
-            --wifi-dot1: #4f6ef7;
-            --wifi-dot2: #4f6ef7;
-            --wifi-dot3: #4f6ef7;
-            --wifi-dot4: #4f6ef7;
-            --transition-speed: 0.35s;
+            /* 浅色（默认）— GitHub light high-contrast 灵感 */
+            --bg: #ffffff;
+            --bg-subtle: #f6f8fa;
+            --card-bg: #ffffff;
+            --card-border: #d0d7de;
+            --card-shadow: 0 1px 0 rgba(31,35,40,0.04), 0 8px 24px rgba(31,35,40,0.08);
+            --text-primary: #1f2328;
+            --text-secondary: #59636e;
+            --text-placeholder: #8c959f;
+            --label-color: #1f2328;
+            --input-bg: #ffffff;
+            --input-border: #d0d7de;
+            --input-border-focus: #0969da;
+            --input-shadow-focus: 0 0 0 3px rgba(9,105,218,0.3);
+            --input-shadow-rest: 0 0 0 1px rgba(255,255,255,0.6) inset;
+            --btn-bg: #1f2328;
+            --btn-bg-hover: #32383f;
+            --btn-shadow: none;
+            --link-color: #0969da;
+            --link-hover: #0860c7;
+            --checkbox-border: #8c959f;
+            --checkbox-checked-bg: #0969da;
+            --checkbox-checked-border: #0969da;
+            --icon-color: #1f2328;
+            --divider-color: #d0d7de;
+            --toggle-bg: #f6f8fa;
+            --toggle-hover: #eaeef2;
+            --footer-text: #59636e;
+            --error-color: #cf222e;
+            --success-color: #1a7f37;
+            --accent: #0969da;
+            /* GitHub 风格：输入框/按钮均为锐利直角（square），仅卡片保留轻微圆角 */
+            --radius: 0px;
+            --radius-card: 12px;
+            --btn-border: #1f2328;
+            --btn-border-hover: #32383f;
+            --transition-speed: 0.2s;
         }
 
         [data-theme="dark"] {
-            --bg-gradient: linear-gradient(145deg, #0e111f 0%, #171c2e 100%);
-            --card-bg: rgba(24, 28, 46, 0.92);
-            --card-border: rgba(255, 255, 255, 0.06);
-            --card-shadow: 0 18px 50px rgba(0, 0, 0, 0.50), 0 6px 18px rgba(0, 0, 0, 0.30);
-            --text-primary: #e8eaf0;
-            --text-secondary: #9ba1b8;
-            --text-placeholder: #5d6380;
-            --label-color: #ced0dc;
-            --input-bg: rgba(38, 42, 65, 0.70);
-            --input-border: #2f3450;
-            --input-border-focus: #6f8aff;
-            --input-shadow-focus: 0 0 0 4px rgba(111, 138, 255, 0.18);
-            --btn-bg: linear-gradient(135deg, #6f8aff, #8a6fff);
-            --btn-shadow: 0 8px 24px rgba(111, 138, 255, 0.28);
-            --btn-hover-bg: linear-gradient(135deg, #5b77f0, #765bf0);
-            --btn-shadow-hover: 0 10px 32px rgba(111, 138, 255, 0.38);
-            --link-color: #8aabff;
-            --link-hover: #a6c0ff;
-            --checkbox-border: #3f4570;
-            --checkbox-checked-bg: #6f8aff;
-            --checkbox-checked-border: #6f8aff;
-            --icon-color: #8aabff;
-            --divider-color: rgba(255, 255, 255, 0.06);
-            --toggle-bg: rgba(255, 255, 255, 0.07);
-            --toggle-hover: rgba(255, 255, 255, 0.12);
-            --footer-text: #5d6380;
-            --error-color: #f06a8a;
-            --success-color: #4ddba8;
-            --wifi-dot1: #8aabff;
-            --wifi-dot2: #8aabff;
-            --wifi-dot3: #8aabff;
-            --wifi-dot4: #8aabff;
+            /* 深色 — GitHub dark dim / dark high-contrast 灵感 */
+            --bg: #0d1117;
+            --bg-subtle: #010409;
+            --card-bg: #161b22;
+            --card-border: #30363d;
+            --card-shadow: 0 0 0 1px #30363d, 0 8px 24px rgba(0,0,0,0.4);
+            --text-primary: #e6edf3;
+            --text-secondary: #9198a1;
+            --text-placeholder: #6e7681;
+            --label-color: #e6edf3;
+            --input-bg: #0d1117;
+            --input-border: #30363d;
+            --input-border-focus: #2f81f7;
+            --input-shadow-focus: 0 0 0 3px rgba(47,129,247,0.4);
+            --input-shadow-rest: 0 0 0 1px rgba(48,54,61,0.5) inset;
+            --btn-bg: #238636;
+            --btn-bg-hover: #2ea043;
+            --btn-shadow: none;
+            --link-color: #2f81f7;
+            --link-hover: #58a6ff;
+            --checkbox-border: #6e7681;
+            --checkbox-checked-bg: #238636;
+            --checkbox-checked-border: #238636;
+            --icon-color: #e6edf3;
+            --divider-color: #30363d;
+            --toggle-bg: #21262d;
+            --toggle-hover: #30363d;
+            --footer-text: #6e7681;
+            --error-color: #f85149;
+            --success-color: #3fb950;
+            --accent: #2f81f7;
+            --radius: 0px;
+            --radius-card: 12px;
+            --btn-border: #2ea043;
+            --btn-border-hover: #3fb950;
         }
 
-        /* ===== 全局样式 ===== */
-        html {
-            font-size: 16px;
-            -webkit-text-size-adjust: 100%;
-        }
+        html { font-size: 16px; -webkit-text-size-adjust: 100%; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
-            background: var(--bg-gradient);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-subtle);
             min-height: 100vh;
             min-height: 100dvh;
             display: flex;
@@ -104,951 +102,387 @@
             transition: background var(--transition-speed) ease;
             line-height: 1.5;
             color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* ===== 卡片容器 ===== */
+        /* ===== 卡片 ===== */
         .auth-card {
             background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            border-radius: 32px;
+            border-radius: var(--radius-card);
             box-shadow: var(--card-shadow);
             width: 100%;
-            max-width: 440px;
-            padding: 36px 32px 32px;
+            max-width: 400px;
+            padding: 32px;
             position: relative;
             transition: background var(--transition-speed) ease,
                 box-shadow var(--transition-speed) ease,
                 border-color var(--transition-speed) ease;
-            animation: cardFadeIn 0.6s ease-out;
+            animation: cardFadeIn 0.4s ease-out;
         }
 
         @keyframes cardFadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(16px) scale(0.98);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== 模式切换按钮（右上角） ===== */
+        /* ===== 主题切换 ===== */
         .theme-toggle {
             position: absolute;
-            top: 18px;
-            right: 18px;
+            top: 16px; right: 16px;
             background: var(--toggle-bg);
-            border: none;
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
             cursor: pointer;
             color: var(--text-secondary);
-            font-size: 20px;
-            transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
-            padding: 0;
-            line-height: 1;
-            z-index: 5;
+            transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+            padding: 0; line-height: 1; z-index: 5;
         }
-
-        .theme-toggle:hover {
-            background: var(--toggle-hover);
-            transform: scale(1.05);
-        }
-
-        .theme-toggle:active {
-            transform: scale(0.92);
-        }
-
-        .theme-toggle svg {
-            width: 22px;
-            height: 22px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            transition: transform 0.4s ease;
-        }
-
-        .theme-toggle .sun-icon {
-            display: none;
-        }
-        .theme-toggle .moon-icon {
-            display: block;
-        }
-
-        [data-theme="dark"] .theme-toggle .sun-icon {
-            display: block;
-        }
-        [data-theme="dark"] .theme-toggle .moon-icon {
-            display: none;
-        }
+        .theme-toggle:hover { background: var(--toggle-hover); color: var(--text-primary); }
+        .theme-toggle:active { transform: scale(0.94); }
+        .theme-toggle svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .theme-toggle .sun-icon { display: none; }
+        .theme-toggle .moon-icon { display: block; }
+        [data-theme="dark"] .theme-toggle .sun-icon { display: block; }
+        [data-theme="dark"] .theme-toggle .moon-icon { display: none; }
 
         /* ===== 头部 ===== */
-        .auth-header {
-            text-align: center;
-            margin-bottom: 28px;
-            padding-right: 40px;
-            /* 为切换按钮留空间 */;
+        .auth-header { text-align: center; margin-bottom: 24px; padding-right: 36px; }
+        .auth-header .logo {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 44px; height: 44px; margin-bottom: 12px;
+            border: 1px solid var(--card-border); border-radius: var(--radius);
+            background: var(--bg-subtle); color: var(--text-primary);
+            transition: border-color var(--transition-speed) ease, background var(--transition-speed) ease;
         }
-
-        /* WiFi 图标（纯CSS） */
-        .wifi-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 56px;
-            height: 56px;
-            margin-bottom: 12px;
-            position: relative;
-        }
-
-        .wifi-icon svg {
-            width: 48px;
-            height: 48px;
-            fill: none;
-            stroke: var(--icon-color);
-            stroke-width: 2.2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            transition: stroke var(--transition-speed) ease;
-        }
-
+        .auth-header .logo svg { width: 22px; height: 22px; fill: currentColor; }
         .auth-header h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            color: var(--text-primary);
-            margin: 0 0 6px 0;
+            font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em;
+            color: var(--text-primary); margin: 0 0 4px 0;
             transition: color var(--transition-speed) ease;
         }
-
         .auth-header p {
-            font-size: 0.92rem;
-            color: var(--text-secondary);
-            margin: 0;
+            font-size: 0.85rem; color: var(--text-secondary); margin: 0;
             transition: color var(--transition-speed) ease;
         }
 
         /* ===== 表单 ===== */
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
+        .auth-form { display: flex; flex-direction: column; gap: 14px; }
+        .form-group { display: flex; flex-direction: column; gap: 4px; }
         .form-group label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--label-color);
-            letter-spacing: 0.01em;
+            font-size: 0.82rem; font-weight: 500; color: var(--label-color);
             transition: color var(--transition-speed) ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
-
-        .form-group label .required {
-            color: var(--error-color);
-            font-weight: 400;
-        }
-
+        .form-group label .required { color: var(--error-color); font-weight: 400; margin-left: 2px; }
         .form-group input {
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 0.95rem;
-            font-family: inherit;
-            color: var(--text-primary);
-            background: var(--input-bg);
-            border: 1.5px solid var(--input-border);
-            border-radius: 14px;
+            width: 100%; padding: 8px 12px; font-size: 0.92rem; font-family: inherit;
+            color: var(--text-primary); background: var(--input-bg);
+            border: 1px solid var(--input-border); border-radius: var(--radius);
             outline: none;
+            box-shadow: var(--input-shadow-rest);
             transition: background var(--transition-speed) ease,
-                border-color 0.25s ease,
-                box-shadow 0.25s ease,
-                color var(--transition-speed) ease;
-            -webkit-appearance: none;
-            appearance: none;
+                border-color 0.15s ease, box-shadow 0.15s ease, color var(--transition-speed) ease;
+            -webkit-appearance: none; appearance: none;
         }
-
-        .form-group input::placeholder {
-            color: var(--text-placeholder);
-            opacity: 0.8;
-        }
-
-        .form-group input:focus {
-            border-color: var(--input-border-focus);
-            box-shadow: var(--input-shadow-focus);
-        }
-
-        .form-group input:user-invalid {
-            border-color: var(--error-color);
-        }
-
-        .form-group input:user-invalid:focus {
-            box-shadow: 0 0 0 4px rgba(231, 76, 111, 0.15);
-        }
+        .form-group input::placeholder { color: var(--text-placeholder); }
+        .form-group input:focus { border-color: var(--input-border-focus); box-shadow: var(--input-shadow-rest), var(--input-shadow-focus); }
+        .form-group input:user-invalid { border-color: var(--error-color); }
+        .form-group input:user-invalid:focus { box-shadow: 0 0 0 3px rgba(207,34,46,0.2); }
 
         /* ===== 复选框 ===== */
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-top: 4px;
-            padding-top: 2px;
-        }
-
+        .checkbox-group { display: flex; align-items: flex-start; gap: 8px; margin-top: 2px; }
         .checkbox-group input[type="checkbox"] {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            min-width: 20px;
-            border: 2px solid var(--checkbox-border);
-            border-radius: 6px;
-            background: transparent;
-            cursor: pointer;
-            position: relative;
-            transition: border-color 0.25s ease, background 0.25s ease;
-            margin-top: 2px;
-            flex-shrink: 0;
+            -webkit-appearance: none; appearance: none;
+            width: 18px; height: 18px; min-width: 18px;
+            border: 1.5px solid var(--checkbox-border); border-radius: var(--radius);
+            background: var(--input-bg); cursor: pointer; position: relative;
+            transition: border-color 0.15s ease, background 0.15s ease;
+            margin-top: 2px; flex-shrink: 0;
         }
-
         .checkbox-group input[type="checkbox"]:checked {
-            background: var(--checkbox-checked-bg);
-            border-color: var(--checkbox-checked-border);
+            background: var(--checkbox-checked-bg); border-color: var(--checkbox-checked-border);
         }
-
         .checkbox-group input[type="checkbox"]:checked::after {
-            content: '';
-            position: absolute;
-            left: 5px;
-            top: 1px;
-            width: 6px;
-            height: 10px;
-            border: solid #fff;
-            border-width: 0 2px 2px 0;
+            content: ''; position: absolute; left: 4px; top: 1px;
+            width: 5px; height: 9px; border: solid #fff; border-width: 0 2px 2px 0;
             transform: rotate(45deg);
         }
-
-        .checkbox-group input[type="checkbox"]:focus-visible {
-            box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.25);
-        }
-
+        .checkbox-group input[type="checkbox"]:focus-visible { box-shadow: var(--input-shadow-focus); }
         .checkbox-group label {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            cursor: pointer;
-            user-select: none;
-            line-height: 1.5;
-            transition: color var(--transition-speed) ease;
+            font-size: 0.82rem; color: var(--text-secondary); cursor: pointer;
+            user-select: none; line-height: 1.5; transition: color var(--transition-speed) ease;
         }
-
-        .checkbox-group label a {
-            color: var(--link-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease;
-            border-bottom: 1px solid transparent;
-        }
-
-        .checkbox-group label a:hover {
-            color: var(--link-hover);
-            border-bottom-color: var(--link-hover);
-        }
+        .checkbox-group label a { color: var(--link-color); text-decoration: none; font-weight: 500; }
+        .checkbox-group label a:hover { color: var(--link-hover); text-decoration: underline; }
 
         /* ===== 提交按钮 ===== */
         .submit-btn {
-            width: 100%;
-            padding: 14px 20px;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: inherit;
-            color: #fff;
-            background: var(--btn-bg);
-            border: none;
-            border-radius: 16px;
-            cursor: pointer;
-            box-shadow: var(--btn-shadow);
-            transition: background 0.35s ease,
-                box-shadow 0.35s ease,
-                transform 0.2s ease;
-            letter-spacing: 0.02em;
-            margin-top: 4px;
-            position: relative;
-            overflow: hidden;
+            width: 100%; padding: 9px 16px; font-size: 0.95rem; font-weight: 500;
+            font-family: inherit; color: #fff; background: var(--btn-bg);
+            border: 1px solid var(--btn-border, var(--card-border)); border-radius: var(--radius);
+            cursor: pointer; transition: background 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
+            margin-top: 4px; letter-spacing: 0;
         }
-
-        .submit-btn:hover {
-            background: var(--btn-hover-bg);
-            box-shadow: var(--btn-shadow-hover);
-            transform: translateY(-1px);
-        }
-
-        .submit-btn:active {
-            transform: translateY(1px) scale(0.98);
-            box-shadow: var(--btn-shadow);
-        }
-
-        .submit-btn:focus-visible {
-            outline: 2px solid var(--input-border-focus);
-            outline-offset: 2px;
-        }
+        .submit-btn:hover { background: var(--btn-bg-hover); border-color: var(--btn-border-hover, var(--text-secondary)); }
+        .submit-btn:active { transform: translateY(1px); }
+        .submit-btn:focus-visible { outline: 2px solid var(--input-border-focus); outline-offset: 2px; }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
         /* ===== 底部 ===== */
         .auth-footer {
-            text-align: center;
-            margin-top: 24px;
-            padding-top: 20px;
+            text-align: center; margin-top: 20px; padding-top: 16px;
             border-top: 1px solid var(--divider-color);
             transition: border-color var(--transition-speed) ease;
         }
+        .auth-footer p { font-size: 0.75rem; color: var(--footer-text); margin: 0; line-height: 1.6; }
+        .auth-footer p a { color: var(--link-color); text-decoration: none; }
+        .auth-footer p a:hover { color: var(--link-hover); text-decoration: underline; }
 
-        .auth-footer p {
-            font-size: 0.78rem;
-            color: var(--footer-text);
-            transition: color var(--transition-speed) ease;
-            margin: 0;
-        }
-
-        .auth-footer p a {
-            color: var(--link-color);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .auth-footer p a:hover {
-            color: var(--link-hover);
-        }
-
-        /* ===== Toast 提示（纯JS控制，轻量） ===== */
+        /* ===== Toast ===== */
         .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(80px);
-            background: var(--card-bg);
-            color: var(--text-primary);
-            padding: 14px 28px;
-            border-radius: 16px;
+            position: fixed; bottom: 24px; left: 50%;
+            transform: translateX(-50%) translateY(60px);
+            background: var(--card-bg); color: var(--text-primary);
+            padding: 10px 16px; border-radius: var(--radius);
             border: 1px solid var(--card-border);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
-            font-size: 0.9rem;
-            font-weight: 500;
-            opacity: 0;
-            transition: transform 0.40s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.40s ease;
-            pointer-events: none;
-            z-index: 999;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            max-width: 90vw;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            white-space: nowrap;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            font-size: 0.85rem; font-weight: 500; opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease;
+            pointer-events: none; z-index: 999;
+            max-width: 90vw; display: flex; align-items: center; gap: 8px;
         }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-            pointer-events: auto;
-        }
-
-        .toast .toast-icon {
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .toast.toast-error .toast-icon {
-            color: var(--error-color);
-        }
-        .toast.toast-success .toast-icon {
-            color: var(--success-color);
-        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+        .toast .toast-icon { font-size: 1.05rem; flex-shrink: 0; }
+        .toast.toast-error .toast-icon { color: var(--error-color); }
+        .toast.toast-success .toast-icon { color: var(--success-color); }
 
         /* ===== 响应式 ===== */
         @media (max-width: 520px) {
-            body {
-                padding: 12px;
-            }
-
-            .auth-card {
-                padding: 28px 20px 24px;
-                border-radius: 24px;
-            }
-
-            .auth-header h1 {
-                font-size: 1.3rem;
-            }
-
-            .auth-header p {
-                font-size: 0.85rem;
-            }
-
-            .wifi-icon {
-                width: 48px;
-                height: 48px;
-            }
-            .wifi-icon svg {
-                width: 40px;
-                height: 40px;
-            }
-
-            .form-group input {
-                padding: 11px 14px;
-                font-size: 0.9rem;
-                border-radius: 12px;
-            }
-
-            .submit-btn {
-                padding: 13px 18px;
-                font-size: 0.95rem;
-                border-radius: 14px;
-            }
-
-            .theme-toggle {
-                top: 14px;
-                right: 14px;
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-            }
-
-            .theme-toggle svg {
-                width: 20px;
-                height: 20px;
-            }
-
-            .checkbox-group label {
-                font-size: 0.82rem;
-            }
-
-            .auth-footer p {
-                font-size: 0.72rem;
-            }
-
-            .toast {
-                font-size: 0.82rem;
-                padding: 12px 20px;
-                bottom: 20px;
-                white-space: normal;
-                max-width: 92vw;
-            }
+            body { padding: 12px; }
+            .auth-card { padding: 24px 20px; border-radius: var(--radius-card); }
+            .auth-header h1 { font-size: 1.15rem; }
+            .form-group input { padding: 8px 11px; font-size: 0.88rem; }
+            .submit-btn { padding: 9px 14px; font-size: 0.92rem; }
+            .theme-toggle { top: 12px; right: 12px; width: 32px; height: 32px; }
+            .theme-toggle svg { width: 16px; height: 16px; }
+            .checkbox-group label { font-size: 0.78rem; }
+            .auth-footer p { font-size: 0.7rem; }
+            .toast { font-size: 0.8rem; padding: 9px 14px; bottom: 16px; }
         }
-
         @media (max-width: 380px) {
-            .auth-card {
-                padding: 22px 16px 20px;
-                border-radius: 20px;
-            }
-
-            .auth-header {
-                margin-bottom: 20px;
-                padding-right: 36px;
-            }
-
-            .auth-header h1 {
-                font-size: 1.15rem;
-            }
-
-            .form-group {
-                gap: 4px;
-            }
-
-            .form-group input {
-                padding: 10px 12px;
-                font-size: 0.85rem;
-            }
-
-            .submit-btn {
-                padding: 12px 16px;
-                font-size: 0.9rem;
-            }
+            .auth-card { padding: 20px 16px; }
+            .auth-header { margin-bottom: 18px; }
+            .form-group input { padding: 7px 10px; font-size: 0.85rem; }
         }
-
-        /* 横屏小屏设备适配 */
         @media (max-height: 700px) and (orientation: landscape) {
-            body {
-                padding: 12px 20px;
-                align-items: flex-start;
-                padding-top: 20px;
-            }
-
-            .auth-card {
-                padding: 20px 24px 18px;
-                max-width: 500px;
-            }
-
-            .auth-header {
-                margin-bottom: 16px;
-            }
-
-            .auth-header h1 {
-                font-size: 1.2rem;
-            }
-
-            .wifi-icon {
-                width: 36px;
-                height: 36px;
-                margin-bottom: 6px;
-            }
-            .wifi-icon svg {
-                width: 30px;
-                height: 30px;
-            }
-
-            .auth-form {
-                gap: 12px;
-            }
-
-            .form-group {
-                gap: 3px;
-            }
-
-            .form-group input {
-                padding: 8px 12px;
-                font-size: 0.85rem;
-            }
-
-            .submit-btn {
-                padding: 10px 16px;
-                font-size: 0.9rem;
-                margin-top: 0;
-            }
-
-            .auth-footer {
-                margin-top: 14px;
-                padding-top: 12px;
-            }
-
-            .theme-toggle {
-                top: 12px;
-                right: 12px;
-                width: 36px;
-                height: 36px;
-            }
-            .theme-toggle svg {
-                width: 18px;
-                height: 18px;
-            }
+            body { padding: 12px 20px; align-items: flex-start; padding-top: 16px; }
+            .auth-card { padding: 20px 24px; max-width: 440px; }
+            .auth-header { margin-bottom: 14px; }
+            .auth-header h1 { font-size: 1.1rem; }
+            .auth-header .logo { width: 36px; height: 36px; margin-bottom: 8px; }
+            .auth-header .logo svg { width: 18px; height: 18px; }
+            .auth-form { gap: 10px; }
+            .form-group input { padding: 7px 10px; font-size: 0.85rem; }
+            .submit-btn { padding: 8px 14px; font-size: 0.88rem; margin-top: 0; }
+            .auth-footer { margin-top: 14px; padding-top: 12px; }
         }
-
-        /* 高DPI 大屏微调 */
         @media (min-width: 768px) {
-            .auth-card {
-                padding: 44px 40px 36px;
-                max-width: 460px;
-            }
-
-            .auth-header h1 {
-                font-size: 1.65rem;
-            }
-
-            .form-group input {
-                padding: 14px 18px;
-                font-size: 1rem;
-            }
-
-            .submit-btn {
-                padding: 16px 24px;
-                font-size: 1.05rem;
-            }
+            .auth-card { padding: 36px 40px; max-width: 420px; }
+            .form-group input { padding: 9px 12px; font-size: 0.95rem; }
         }
-
-        /* 辅助：减少动画 */
         @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
         }
-
-        /* 焦点可见性 */
-        :focus-visible {
-            outline: 2px solid var(--input-border-focus);
-            outline-offset: 2px;
-        }
+        :focus-visible { outline: 2px solid var(--input-border-focus); outline-offset: 2px; }
     </style>
 </head>
 <body>
 
-    <!-- ===== Toast 容器 ===== -->
     <div class="toast" id="toast" role="alert" aria-live="polite">
         <span class="toast-icon" id="toastIcon">✓</span>
         <span id="toastMessage"></span>
     </div>
 
-    <!-- ===== 认证卡片 ===== -->
     <div class="auth-card" role="main" aria-labelledby="authTitle">
 
-        <!-- 主题切换按钮 -->
-        <button class="theme-toggle" id="themeToggle"
-        aria-label="切换深色/浅色模式"
-        title="切换深色/浅色模式">
-        <!-- 太阳图标 (浅色模式显示) -->
-        <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3"/>
-            <line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/>
-            <line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        <!-- 月亮图标 (深色模式显示) -->
-        <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-    </button>
-
-    <!-- 头部 -->
-    <div class="auth-header">
-        <div class="wifi-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48">
-                <path d="M24 38a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="var(--icon-color)" stroke="none"/>
-                <path d="M16 30a12 12 0 0 1 16 0" stroke="var(--wifi-dot2)" fill="none" stroke-width="2.5"/>
-                <path d="M8 22a20 20 0 0 1 32 0" stroke="var(--wifi-dot3)" fill="none" stroke-width="2.5"/>
-                <path d="M2 14a28 28 0 0 1 44 0" stroke="var(--wifi-dot4)" fill="none" stroke-width="2.5" opacity="0.5"/>
+        <button class="theme-toggle" id="themeToggle" aria-label="切换深色/浅色模式" title="切换深色/浅色模式">
+            <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
             </svg>
-        </div>
-        <h1 id="authTitle">安全网络接入</h1>
-        <p>请输入您的信息以连接互联网</p>
-    </div>
-
-    <!-- 表单 -->
-    <form class="auth-form" id="authForm" action="/auth/login" method="POST" novalidate autocomplete="on">
-
-        <div class="form-group">
-            <label for="phone">手机号 <span class="required">*</span></label>
-            <input type="tel" id="phone" name="phone"
-            placeholder="请输入手机号"
-            inputmode="numeric"
-            pattern="[0-9+\-() ]{7,20}"
-            required
-            autocomplete="tel">
-        </div>
-
-        <div class="form-group">
-            <label for="name">姓名 <span class="required">*</span></label>
-            <input type="text" id="name" name="name"
-            placeholder="请输入您的姓名"
-            required
-            autocomplete="name">
-        </div>
-
-        <div class="form-group">
-            <label for="email">邮箱 <span class="required">*</span></label>
-            <input type="email" id="email" name="email"
-            placeholder="请输入邮箱地址"
-            required
-            autocomplete="email">
-        </div>
-
-        <!-- 同意条款 -->
-        <div class="checkbox-group">
-            <input type="checkbox" id="agree" name="agree" required value="yes">
-            <label for="agree">
-                我已阅读并同意
-                <a href="/login/privacy.html" target="_blank" rel="noopener">隐私政策</a>
-                和
-                <a href="/login/tos.html" target="_blank" rel="noopener">服务条款</a>
-                <span style="color:var(--error-color)">*</span>
-            </label>
-        </div>
-
-        <button type="submit" class="submit-btn" id="submitBtn">
-            连接网络
+            <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
         </button>
-    </form>
 
-    <!-- 底部 -->
-    <div class="auth-footer">
-        <p>连接即表示您同意我们的服务条款和隐私政策。<br>
-            &copy; 2026 安全网络服务 &nbsp;·&nbsp; 用心连接</p>
+        <div class="auth-header">
+            <div class="logo" aria-hidden="true">
+                <!-- 盾牌锁图标，契合"安全接入" -->
+                <svg viewBox="0 0 24 24"><path d="M12 2L4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5l-8-3zm3 9h-2v3H9V9H7V7h2V5h2v2h2v2h2v2z"/></svg>
+            </div>
+            <h1 id="authTitle">安全网络接入</h1>
+            <p>登录以连接互联网</p>
+        </div>
+
+        <form class="auth-form" id="authForm" action="/auth/login" method="POST" novalidate autocomplete="on">
+
+            <div class="form-group">
+                <label for="name">姓名 <span class="required">*</span></label>
+                <input type="text" id="name" name="name" placeholder="请输入您的姓名" required autocomplete="name">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">手机号 <span class="required">*</span></label>
+                <input type="tel" id="phone" name="phone" placeholder="请输入手机号" inputmode="numeric" pattern="[0-9+\-() ]{7,20}" required autocomplete="tel">
+            </div>
+
+            <div class="form-group">
+                <label for="student_id">账号（学号） <span class="required">*</span></label>
+                <input type="text" id="student_id" name="student_id" placeholder="请输入您的学号" required autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="password">密码 <span class="required">*</span></label>
+                <input type="password" id="password" name="password" placeholder="请输入密码" required autocomplete="current-password">
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="agree" name="agree" required value="true">
+                <label for="agree">
+                    我已阅读并同意 <a href="#" target="_blank" rel="noopener">隐私政策</a> 和 <a href="#" target="_blank" rel="noopener">服务条款</a>
+                    <span style="color:var(--error-color)">*</span>
+                </label>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">连接网络</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>连接即表示您同意我们的服务条款和隐私政策。<br>&copy; 2026 安全网络服务</p>
+        </div>
     </div>
-</div>
 
-<!-- ===== 内联 JavaScript ===== -->
 <script>
     (function() {
         'use strict';
 
-        // ---------- 1. 深色/浅色模式 ----------
+        // ---------- 1. 主题切换 ----------
         const html = document.documentElement;
         const toggleBtn = document.getElementById('themeToggle');
         const STORAGE_KEY = 'auth_theme';
-
-        // 获取系统偏好
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
         function getStoredTheme() {
-            try {
-                return localStorage.getItem(STORAGE_KEY);
-            } catch (_) { return null; }
+            try { return localStorage.getItem(STORAGE_KEY); } catch (_) { return null; }
         }
-
         function setStoredTheme(theme) {
-            try {
-                localStorage.setItem(STORAGE_KEY, theme);
-            } catch (_) { /* ignore */ }
+            try { localStorage.setItem(STORAGE_KEY, theme); } catch (_) {}
         }
-
         function applyTheme(theme) {
-            if (theme === 'dark') {
-                html.setAttribute('data-theme', 'dark');
-            } else {
-                html.removeAttribute('data-theme');
-            }
-            // 按钮 aria-label 更新
+            if (theme === 'dark') html.setAttribute('data-theme', 'dark');
+            else html.removeAttribute('data-theme');
             const isDark = theme === 'dark';
-            toggleBtn.setAttribute('aria-label',
-                isDark ? '切换到浅色模式' : '切换到深色模式'
-            );
-            toggleBtn.setAttribute('title',
-                isDark ? '切换到浅色模式' : '切换到深色模式'
-            );
+            toggleBtn.setAttribute('aria-label', isDark ? '切换到浅色模式' : '切换到深色模式');
+            toggleBtn.setAttribute('title', isDark ? '切换到浅色模式' : '切换到深色模式');
         }
-
-        // 初始化主题
         function initTheme() {
             const stored = getStoredTheme();
-            if (stored === 'dark' || stored === 'light') {
-                applyTheme(stored);
-            } else {
-                // 跟随系统
-                applyTheme(prefersDark.matches ? 'dark' : 'light');
-            }
+            applyTheme(stored === 'dark' || stored === 'light' ? stored : (prefersDark.matches ? 'dark' : 'light'));
         }
         initTheme();
-
-        // 切换
         toggleBtn.addEventListener('click', function() {
-            const isDark = html.getAttribute('data-theme') === 'dark';
-            const newTheme = isDark ? 'light' : 'dark';
-            applyTheme(newTheme);
-            setStoredTheme(newTheme);
+            const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme); setStoredTheme(newTheme);
         });
-
-        // 系统主题变化时（如果用户没有手动存储过，则跟随）
         prefersDark.addEventListener('change', function(e) {
-            const stored = getStoredTheme();
-            if (!stored) {
-                applyTheme(e.matches ? 'dark' : 'light');
-            }
+            if (!getStoredTheme()) applyTheme(e.matches ? 'dark' : 'light');
         });
 
-        // ---------- 2. 表单验证 & Toast ----------
-        const form = document.getElementById('authForm');
+        // ---------- 2. Toast ----------
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
         const toastIcon = document.getElementById('toastIcon');
-        const submitBtn = document.getElementById('submitBtn');
         let toastTimer = null;
-
         function showToast(message, type, icon) {
-            // 清除之前的定时器
-            if (toastTimer) {
-                clearTimeout(toastTimer);
-                toastTimer = null;
-            }
-            // 重置类
+            if (toastTimer) clearTimeout(toastTimer);
             toast.classList.remove('show', 'toast-error', 'toast-success');
-            // 设置内容
             toastMessage.textContent = message;
             toastIcon.textContent = icon || '✓';
-            if (type === 'error') {
-                toast.classList.add('toast-error');
-            } else if (type === 'success') {
-                toast.classList.add('toast-success');
-            }
-            // 触发重排后显示
+            if (type === 'error') toast.classList.add('toast-error');
+            else if (type === 'success') toast.classList.add('toast-success');
             void toast.offsetWidth;
             toast.classList.add('show');
-
-            // 3.5秒后隐藏
-            toastTimer = setTimeout(function() {
-                toast.classList.remove('show');
-                toastTimer = null;
-            }, 3500);
+            toastTimer = setTimeout(() => { toast.classList.remove('show'); toastTimer = null; }, 3500);
         }
+        function hideToast() { if (toastTimer) clearTimeout(toastTimer); toast.classList.remove('show'); }
 
-        function hideToast() {
-            if (toastTimer) {
-                clearTimeout(toastTimer);
-                toastTimer = null;
-            }
-            toast.classList.remove('show');
-        }
+        // ---------- 3. 表单校验 ----------
+        const form = document.getElementById('authForm');
+        const submitBtn = document.getElementById('submitBtn');
 
-        // 表单提交
         form.addEventListener('submit', function(e) {
-            // 先隐藏之前的 toast
             hideToast();
-
-            // 获取字段
-            const phone = document.getElementById('phone').value.trim();
             const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const student_id = document.getElementById('student_id').value.trim();
+            const password = document.getElementById('password').value;
             const agree = document.getElementById('agree').checked;
 
-            // 客户端校验（增强体验）
-            if (!phone) {
-                e.preventDefault();
-                showToast('请输入手机号', 'error', '✕');
-                document.getElementById('phone').focus();
-                return;
-            }
-            if (!name) {
-                e.preventDefault();
-                showToast('请输入姓名', 'error', '✕');
-                document.getElementById('name').focus();
-                return;
-            }
-            if (!email) {
-                e.preventDefault();
-                showToast('请输入邮箱地址', 'error', '✕');
-                document.getElementById('email').focus();
-                return;
-            }
-            // 简单邮箱格式检查
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                e.preventDefault();
-                showToast('请输入有效的邮箱地址', 'error', '✕');
-                document.getElementById('email').focus();
-                return;
-            }
-            if (!agree) {
-                e.preventDefault();
-                showToast('请阅读并同意隐私政策和服务条款', 'error', '✕');
-                document.getElementById('agree').focus();
-                return;
-            }
+            if (!name) { e.preventDefault(); showToast('请输入姓名', 'error', '✕'); document.getElementById('name').focus(); return; }
+            if (!phone) { e.preventDefault(); showToast('请输入手机号', 'error', '✕'); document.getElementById('phone').focus(); return; }
+            if (!student_id) { e.preventDefault(); showToast('请输入学号', 'error', '✕'); document.getElementById('student_id').focus(); return; }
+            if (!password) { e.preventDefault(); showToast('请输入密码', 'error', '✕'); document.getElementById('password').focus(); return; }
+            if (!agree) { e.preventDefault(); showToast('请阅读并同意隐私政策和服务条款', 'error', '✕'); document.getElementById('agree').focus(); return; }
 
-            // 所有校验通过，显示提交中状态
             submitBtn.disabled = true;
             submitBtn.textContent = '提交中…';
-            // 注意：不阻止默认提交，让表单正常 POST 到 /auth/login
-            // 但为了更好的体验，可以显示一个短暂的成功提示
-            // 不过因为页面会跳转/刷新，所以这里只做视觉反馈
-            // 如果希望提交后不跳转，可以改为 AJAX，但用户要求不使用 JS 复杂逻辑，
-            // 且要求 POST 提交，所以保持原生表单提交。
-            // 我们显示一个快速的成功提示，然后表单继续提交。
             showToast('正在提交认证…', 'success', '✓');
-
-            // 表单正常提交，服务器返回后页面会刷新/跳转
-            // 注意：如果服务器返回错误，页面会重新加载，但这里无法控制。
-            // 我们让表单自然提交。
-            // 为了防止 double submit，按钮已禁用，但表单提交后页面卸载，所以没问题。
-            // 如果提交后页面没有跳转（比如服务器返回 JSON），则用户可能需要额外处理。
-            // 但根据强制门户的常规，服务器会返回重定向或成功页面，所以这里保持原生。
-            // 为了安全，不阻止默认行为。
         });
 
-        // 如果表单提交后页面没有跳转（比如服务器返回错误且停留在同一页），
-        // 需要重新启用按钮。但原生表单提交会导致页面重新加载，所以通常不需要。
-        // 但为了防御，我们保留一个后备：如果页面还在这里，5秒后启用按钮。
-        // 这不会影响正常提交（页面卸载）。
         setTimeout(function() {
-            if (submitBtn.disabled) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = '连接网络';
-            }
+            if (submitBtn.disabled) { submitBtn.disabled = false; submitBtn.textContent = '连接网络'; }
         }, 5000);
 
-        // ---------- 3. 输入框自动去除多余空格 ----------
-        const inputs = form.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"]');
-        inputs.forEach(function(input) {
-            input.addEventListener('blur', function() {
-                // 去除首尾空格，但保留内部空格（姓名可能有中间空格）
-                if (input.type !== 'tel') {
-                    // 手机号去除所有空格
-                    this.value = this.value.trim();
-                } else {
-                    // 手机号去除所有空格
-                    this.value = this.value.replace(/\s+/g, '');
-                }
-            });
-        });
-
-        // 手机号输入时自动过滤非数字字符（但保留 + - ( ) 空格 方便国际号码）
+        // ---------- 4. 输入清洗 ----------
         document.getElementById('phone').addEventListener('input', function() {
-            // 只允许数字、+、-、(、)、空格
             this.value = this.value.replace(/[^0-9+\-() ]/g, '');
         });
-
-        // ---------- 4. 点击卡片外部轻触关闭 toast（辅助） ----------
-        document.addEventListener('click', function(e) {
-            if (toast.classList.contains('show')) {
-                // 如果点击的不是 toast 内部，且不是按钮等
-                const target = e.target;
-                if (!toast.contains(target) && target !== submitBtn && !submitBtn.contains(target)) {
-                    // 不强制关闭，但允许点击其他区域关闭
-                    // 为了UX，点击外部关闭 toast
-                    hideToast();
-                }
-            }
+        document.getElementById('student_id').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+        const textInputs = form.querySelectorAll('input[type="text"], input[type="tel"]');
+        textInputs.forEach(function(input) {
+            input.addEventListener('blur', function() { this.value = this.value.trim(); });
         });
 
-        // 按 ESC 关闭 toast
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && toast.classList.contains('show')) {
-                hideToast();
-            }
-        });
-
-        // ---------- 5. 记住复选框状态（可选，提升体验） ----------
+        // ---------- 5. agree 状态记忆 ----------
         const agreeCheckbox = document.getElementById('agree');
         try {
-            const savedAgree = sessionStorage.getItem('auth_agree');
-            if (savedAgree === 'true') {
-                agreeCheckbox.checked = true;
-            }
+            if (sessionStorage.getItem('auth_agree') === 'true') agreeCheckbox.checked = true;
             agreeCheckbox.addEventListener('change', function() {
-                try {
-                    sessionStorage.setItem('auth_agree', this.checked ? 'true' : 'false');
-                } catch (_) {}
+                try { sessionStorage.setItem('auth_agree', this.checked ? 'true' : 'false'); } catch (_) {}
             });
-        } catch (_) { /* ignore */ }
+        } catch (_) {}
 
-        // ---------- 6. 如果 URL 有错误参数，显示提示（可选） ----------
-        // 例如 /auth/login?error=1 或 ?message=xxx
-        (function() {
-            try {
-                const params = new URLSearchParams(window.location.search);
-                const errorMsg = params.get('error') || params.get('message') || params.get('err');
-                if (errorMsg) {
-                    // 解码
-                    const msg = decodeURIComponent(errorMsg);
-                    if (msg.length > 0 && msg.length < 200) {
-                        setTimeout(function() {
-                            showToast(msg, 'error', '✕');
-                        }, 300);
-                    }
-                }
-            } catch (_) {}
-        })();
+        // ---------- 6. URL 错误参数 ----------
+        try {
+            const err = new URLSearchParams(window.location.search).get('error');
+            if (err) setTimeout(() => showToast(decodeURIComponent(err), 'error', '✕'), 300);
+        } catch (_) {}
 
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && toast.classList.contains('show')) hideToast();
+        });
     })();
 </script>
-
 </body>
 </html>
