@@ -23,6 +23,6 @@ pub async fn submit(form: web::Form<InfoForm>) -> HttpResponse {
         form.email
     );
     HttpResponse::Found()
-        .insert_header((header::LOCATION, "/success.html"))
+        .insert_header((header::LOCATION, "/login/success.html"))
         .finish()
 }

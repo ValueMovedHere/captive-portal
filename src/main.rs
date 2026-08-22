@@ -17,7 +17,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(handlers::redirect_login)
             .service(submissions::submit)
-            .service(Files::new("/", "./pages"))
+            .service(Files::new("/login", "./pages"))
             .default_service(web::to(handlers::not_found))
     })
     .bind(format!("localhost:{port}"))?
