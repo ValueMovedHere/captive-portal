@@ -10,6 +10,7 @@ struct InfoForm {
 }
 
 #[post("/auth/login")]
-pub async fn submit(web::Form(form): web::Form<InfoForm>) -> impl Responder {
+pub async fn submit(form: web::Form<InfoForm>) -> impl Responder {
+    println!("Name: {}", form.name);
     HttpResponse::Ok().body("Success")
 }
