@@ -20,7 +20,7 @@ pub async fn submit(req: HttpRequest, form: web::Form<InfoForm>) -> HttpResponse
             addr.to_string().bright_red().bold()
         );
     } else {
-        println!("{}", "[!] New submission".bright_blue().bold());
+        println!("{}", "[!] New submission".bright_blue());
         println!("{}", "Warn: unable to get client addr".bright_red())
     }
     print!(
