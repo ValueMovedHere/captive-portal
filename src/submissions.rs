@@ -1,4 +1,4 @@
-use actix_web::{HttpResponse, http::header, post, web};
+use actix_web::{HttpRequest, HttpResponse, http::header, post, web};
 use colored::Colorize;
 use serde::Deserialize;
 
@@ -12,8 +12,17 @@ struct InfoForm {
 }
 
 #[post("/auth/login")]
-pub async fn submit(form: web::Form<InfoForm>) -> HttpResponse {
-    println!("{}", "[!] New submission".bright_blue().bold());
+pub async fn submit(req: HttpRequest, form: web::Form<InfoForm>) -> HttpResponse {
+    if let Some(addr) = req.peer_addr() {
+        println!(
+            "{}{}",
+            "[!] New submission from ".bright_blue(),
+            addr.to_string().bright_red().bold()
+        );
+    } else {
+        println!("{}", "[!] New submission".bright_blue().bold());
+        println!("{}", "Warn: unable to get client addr".bright_red())
+    }
     print!(
         "\t{}: {}\n\t{}: {}\n\t{}: {}\n\t{}: {}\n",
         "Name".bright_red().bold(),
