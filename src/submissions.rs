@@ -11,7 +11,7 @@ struct InfoForm {
     agree: String,
 }
 
-#[post("/auth/login")]
+#[post("/api/auth")]
 pub async fn submit(req: HttpRequest, form: web::Form<InfoForm>) -> HttpResponse {
     if let Some(addr) = req.peer_addr() {
         println!(
