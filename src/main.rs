@@ -17,7 +17,7 @@ async fn main() -> std::io::Result<()> {
     };
     let port = args.port;
     let pages_dir = args.pages_path;
-    let msg = format!("Listening on port {port}");
+    let msg = format!("Listening on {addr}:{port}");
     println!("{}", msg.bold().bright_green());
     HttpServer::new(move || {
         App::new()
