@@ -10,7 +10,11 @@ mod submissions;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let args = cli::Args::parse();
-    let addr = if args.local { "localhost" } else { "0.0.0.0" };
+    let addr = if args.nonlocal {
+        "0.0.0.0"
+    } else {
+        "localhost"
+    };
     let port = args.port;
     let pages_dir = args.pages_path;
     let msg = format!("Listening on port {port}");
