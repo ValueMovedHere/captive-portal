@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>隐私政策与使用条款 · Wi-Fi 强制门户</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ===== 二值配色：仅 0（黑）与 1（白），无中间灰 ===== */
+body.dark {
+  background: #000;
+  color: #fff;
+}
+body.dark .card,
+body.dark .btn-outline,
+body.dark .brand-mark {
+  background: #000;
+  border-color: #fff;
+}
+body.dark .card:hover { background: #000; }
+body.dark .btn-outline:hover { background: #fff; color: #000; }
+body.dark .tag { color: #fff; border-color: #fff; background: #000; }
+body.dark .accent-bar { background: #fff; }
+body.dark .highlight { background: #fff; color: #000; border-color: #fff; }
+body.dark .dot { background: #fff; }
+body.dark footer { border-top-color: #fff; color: #fff; }
+body.dark .hero p { color: #fff; }
+body.dark .li-muted { color: #fff; }
+
+body.light {
+  background: #fff;
+  color: #000;
+}
+body.light .card,
+body.light .btn-outline,
+body.light .brand-mark {
+  background: #fff;
+  border-color: #000;
+}
+body.light .card:hover { background: #fff; }
+body.light .btn-outline:hover { background: #000; color: #fff; }
+body.light .tag { color: #000; border-color: #000; background: #fff; }
+body.light .accent-bar { background: #000; }
+body.light .highlight { background: #000; color: #fff; border-color: #000; }
+body.light .dot { background: #000; }
+body.light footer { border-top-color: #000; color: #000; }
+body.light .hero p { color: #000; }
+body.light .li-muted { color: #000; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .2s, color .2s;
+}
+
+.container {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 44px 28px 64px;
+}
+
+/* ===== 顶部栏 ===== */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: .02em;
+}
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border: 2px solid;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 16px;
+}
+.actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.btn-outline {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border: 2px solid;
+  border-radius: 10px;
+  font-family: inherit;
+  transition: background .15s, color .15s;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 1.2;
+}
+.btn-outline a { text-decoration: none; color: inherit; }
+.theme-label { font-variant: small-caps; letter-spacing: .04em; }
+
+/* ===== Hero ===== */
+.hero { margin-bottom: 44px; }
+.hero h1 {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.hero p { font-size: 17px; font-weight: 500; }
+
+/* ===== 卡片 ===== */
+.card-list { display: flex; flex-direction: column; gap: 32px; }
+.card {
+  border: 2px solid;
+  border-radius: 18px;
+  padding: 32px 34px;
+  position: relative;
+  transition: transform .15s;
+}
+.card:hover { transform: translateY(-2px); }
+.accent-bar {
+  width: 6px;
+  height: calc(100% - 40px);
+  position: absolute;
+  left: -2px;
+  top: 20px;
+  border-radius: 4px;
+}
+.card-body { padding-left: 22px; }
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 3px 12px;
+  margin-bottom: 16px;
+  border: 2px solid;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+.card-body h2 {
+  font-size: 23px;
+  font-weight: 750;
+  margin-bottom: 18px;
+  letter-spacing: -0.01em;
+}
+.card-body ul { list-style: none; padding: 0; }
+.card-body li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.card-body li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 11px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.card-body p { margin-bottom: 14px; font-weight: 500; }
+
+/* 高亮块：纯反色 */
+.highlight {
+  border: 2px solid;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-top: 16px;
+  font-weight: 700;
+}
+
+footer {
+  margin-top: 60px;
+  padding-top: 22px;
+  border-top: 2px solid;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+@media (max-width: 560px) {
+  .container { padding: 26px 16px; }
+  .toolbar { gap: 8px; }
+  .hero h1 { font-size: 27px; }
+  .card { padding: 22px 20px; border-radius: 14px; }
+  .card-body { padding-left: 14px; }
+  .actions { width: 100%; justify-content: flex-end; }
+}
+</style>
+</head>
+<body class="dark">
+
+<div class="container">
+  <div class="toolbar">
+    <div class="brand">
+      <div class="brand-mark">W</div>
+      <span>Wi-Fi 强制门户</span>
+    </div>
+    <div class="actions">
+      <button id="themeToggle" class="btn-outline"><span class="theme-label">浅色</span></button>
+      <button class="btn-outline"><a href="/login/index.html">返回主页</a></button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>隐私政策与使用条款</h1>
+    <p>使用本网络前，请仔细阅读以下条款。</p>
+  </div>
+
+  <div class="card-list">
+    <!-- 使用条款 -->
+    <div class="card">
+      <div class="accent-bar"></div>
+      <div class="card-body">
+        <span class="tag">TERMS · 使用条款</span>
+        <h2>使用条款</h2>
+        <ul>
+          <li>本网络仅供合法用途使用。用户不得利用本网络从事任何违反中华人民共和国法律法规的活动。</li>
+          <li>禁止对本网络或通过本网络对第三方系统进行任何形式的攻击、入侵、扫描、渗透测试等行为。</li>
+          <li>禁止传播、存储、下载任何违法信息，包括但不限于淫秽色情、暴力恐怖、赌博欺诈、侵犯他人合法权益等内容。</li>
+          <li>用户应当文明上网，尊重他人知识产权和隐私权，不得发送垃圾邮件、恶意广告或实施网络诈骗。</li>
+          <li>如发现用户违反上述条款，运营方有权立即中断服务并保留向有关部门举报的权利。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 隐私政策 -->
+    <div class="card">
+      <div class="accent-bar"></div>
+      <div class="card-body">
+        <span class="tag">PRIVACY · 隐私政策</span>
+        <h2>隐私政策</h2>
+        <p>我们高度重视您的隐私保护。本强制门户承诺：<strong>绝不会记录任何用户的个人数据</strong>。具体而言：</p>
+        <ul>
+          <li>我们不收集您的姓名、邮箱、电话号码等个人身份信息。</li>
+          <li>我们不记录您访问的网址、搜索内容、通信内容或应用使用情况。</li>
+          <li>我们不存储您的设备标识符（如 MAC 地址、IMEI 等）或位置信息。</li>
+          <li>我们不使用 Cookies 或任何追踪技术来识别您的浏览行为。</li>
+          <li>连接过程中产生的临时会话信息仅在网络认证期间存在于内存中，认证完成后立即清除，不留存任何日志。</li>
+        </ul>
+        <div class="highlight">您的上网内容仅您本人可见。我们既不查看，亦不存储。</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>&copy; 2026 Wi-Fi 强制门户 · 仅用于合法上网</footer>
+</div>
+
+<script>
+(function() {
+  var body = document.body;
+  var toggleBtn = document.getElementById('themeToggle');
+  var label = toggleBtn.querySelector('.theme-label');
+
+  function getPreferredTheme() {
+    var stored = localStorage.getItem('theme');
+    if (stored === 'light' || stored === 'dark') return stored;
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+
+  function applyTheme(theme) {
+    body.className = theme;
+    label.textContent = theme === 'dark' ? '浅色' : '深色';
+    localStorage.setItem('theme', theme);
+  }
+
+  applyTheme(getPreferredTheme());
+
+  toggleBtn.addEventListener('click', function() {
+    applyTheme(body.classList.contains('dark') ? 'light' : 'dark');
+  });
+})();
+</script>
+</body>
+</html>
