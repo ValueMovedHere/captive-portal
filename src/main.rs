@@ -18,8 +18,12 @@ async fn main() -> std::io::Result<()> {
     let port = args.port;
     let pages_dir = args.pages_path;
     let offline = args.offline;
-    let msg = format!("Listening on {addr}:{port} in offline mode: {offline}");
-    println!("{}", msg.bold().bright_green());
+    let msg = format!("Listening on {addr}:{port} in offline mode: ");
+    println!(
+        "{}{}",
+        msg.bold().bright_green(),
+        offline.to_string().bright_red().bold()
+    );
     HttpServer::new(move || {
         App::new()
             .app_data(Conf { offline: offline })
