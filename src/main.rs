@@ -26,7 +26,7 @@ async fn main() -> std::io::Result<()> {
     );
     HttpServer::new(move || {
         App::new()
-            .app_data(Conf { offline: offline })
+            .app_data(web::Data::new(Conf { offline: offline }))
             .service(handlers::redirect_login)
             .service(submissions::submit)
             .service(Files::new("/login", &pages_dir).index_file("index.html"))
