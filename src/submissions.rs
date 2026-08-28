@@ -56,8 +56,9 @@ pub async fn submit(
         form.agree,
     );
     if !conf.offline {
+        // allow user to access success page
         return HttpResponse::Found()
-            .insert_header((header::LOCATION, "/login/success.html"))
+            .insert_header((header::LOCATION, "success/success.html"))
             .finish();
     }
     HttpResponse::Found()

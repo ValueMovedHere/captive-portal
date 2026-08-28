@@ -10,3 +10,8 @@ pub async fn not_found() -> HttpResponse {
         .insert_header((header::LOCATION, "/login/not_found.html"))
         .finish()
 }
+
+#[get("/success/success.html")]
+pub async fn success_page() -> HttpResponse {
+    // verify user here
+}
