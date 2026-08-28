@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>服务暂不可用 · 服务器错误</title>
+    <style>
+        /* ===== Reset & Base ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* 浅色主题 – 高对比度 */
+            --bg: #ffffff;
+            --text-primary: #000000;
+            --text-secondary: #222222;
+            --text-muted: #444444;
+            --accent: #005cc5;
+            --accent-hover: #003d99;
+            --code-bg: #f0f0f0;
+            --border: #888888;
+            --btn-bg: #eaeaea;
+            --btn-border: #888888;
+            --btn-hover-bg: #d6d6d6;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+            --transition-speed: 0.25s;
+        }
+
+        [data-theme='dark'] {
+            /* 深色主题 – 高对比度 */
+            --bg: #0a0e14;
+            --text-primary: #ffffff;
+            --text-secondary: #cfcfcf;
+            --text-muted: #ababab;
+            --accent: #70b8ff;
+            --accent-hover: #94cbff;
+            --code-bg: #181c23;
+            --border: #5a5a5a;
+            --btn-bg: #262c36;
+            --btn-border: #5a5a5a;
+            --btn-hover-bg: #343b47;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: background-color var(--transition-speed) ease,
+                color var(--transition-speed) ease;
+            padding: 24px;
+            line-height: 1.6;
+        }
+
+        /* ===== Container ===== */
+        .container {
+            max-width: 620px;
+            width: 100%;
+            margin: auto;
+            padding: 56px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* ===== Status Code ===== */
+        .status-code {
+            font-size: clamp(108px, 22vw, 180px);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            color: var(--text-muted);
+            opacity: 0.55;
+            user-select: none;
+            transition: color var(--transition-speed) ease;
+            margin-bottom: 4px;
+        }
+
+        /* ===== Title ===== */
+        .title {
+            font-size: clamp(26px, 5.5vw, 38px);
+            font-weight: 650;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            transition: color var(--transition-speed) ease;
+            margin-bottom: 18px;
+        }
+
+        /* ===== Description ===== */
+        .description {
+            font-size: clamp(16px, 2.8vw, 19px);
+            color: var(--text-secondary);
+            transition: color var(--transition-speed) ease;
+            max-width: 520px;
+            margin: 0 auto 12px;
+        }
+
+        .description p {
+            margin-bottom: 10px;
+        }
+
+        .description p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ===== Hint ===== */
+        .hint {
+            display: inline-block;
+            margin-top: 22px;
+            padding: 10px 24px;
+            font-size: 15px;
+            font-weight: 550;
+            color: var(--accent);
+            background-color: var(--code-bg);
+            border-radius: 999px;
+            border: 1.5px solid var(--border);
+            transition: background-color var(--transition-speed) ease,
+                color var(--transition-speed) ease,
+                border-color var(--transition-speed) ease;
+            user-select: none;
+        }
+
+        /* ===== Divider ===== */
+        .divider {
+            width: 68px;
+            height: 3px;
+            background-color: var(--border);
+            margin: 30px auto 28px;
+            border-radius: 3px;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        /* ===== Footer ===== */
+        .footer-note {
+            font-size: 14px;
+            color: var(--text-muted);
+            transition: color var(--transition-speed) ease;
+        }
+
+        .footer-note a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
+        }
+
+        .footer-note a:hover {
+            text-decoration: underline;
+            color: var(--accent-hover);
+        }
+
+        /* ===== Theme Toggle Button ===== */
+        .theme-toggle-wrap {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 530;
+            font-family: inherit;
+            line-height: 1;
+            color: var(--text-secondary);
+            background-color: var(--btn-bg);
+            border: 1.5px solid var(--btn-border);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed) ease,
+                color var(--transition-speed) ease,
+                border-color var(--transition-speed) ease,
+                box-shadow 0.15s ease;
+            box-shadow: var(--shadow-sm);
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--btn-hover-bg);
+            color: var(--text-primary);
+            border-color: var(--text-muted);
+        }
+
+        .theme-toggle:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .theme-toggle svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        .theme-toggle .icon-sun {
+            display: none;
+        }
+        .theme-toggle .icon-moon {
+            display: block;
+        }
+
+        /* 当前为浅色模式 → 显示月亮图标 (切换到深色) */
+        [data-theme='light'] .theme-toggle .icon-sun {
+            display: none;
+        }
+        [data-theme='light'] .theme-toggle .icon-moon {
+            display: block;
+        }
+
+        /* 当前为深色模式 → 显示太阳图标 (切换到浅色) */
+        [data-theme='dark'] .theme-toggle .icon-sun {
+            display: block;
+        }
+        [data-theme='dark'] .theme-toggle .icon-moon {
+            display: none;
+        }
+
+        .theme-toggle .label-text {
+            transition: color var(--transition-speed) ease;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 540px) {
+            body {
+                padding: 16px;
+            }
+
+            .container {
+                padding: 36px 14px;
+            }
+
+            .theme-toggle-wrap {
+                top: 12px;
+                right: 12px;
+            }
+
+            .theme-toggle {
+                padding: 6px 14px;
+                font-size: 12px;
+                gap: 6px;
+            }
+
+            .theme-toggle svg {
+                width: 14px;
+                height: 14px;
+            }
+
+            .hint {
+                font-size: 14px;
+                padding: 8px 18px;
+            }
+
+            .divider {
+                width: 50px;
+                margin: 24px auto 22px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .status-code {
+                font-size: 74px;
+            }
+            .title {
+                font-size: 21px;
+            }
+            .description {
+                font-size: 15px;
+            }
+        }
+
+        @media (min-height: 820px) {
+            .container {
+                padding: 90px 24px;
+            }
+        }
+
+        /* ===== Reduced Motion ===== */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+        }
+
+        /* ===== Fade-in on load ===== */
+        .container {
+            opacity: 0;
+            transform: translateY(8px);
+            animation: fadeIn 0.45s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== Print ===== */
+        @media print {
+            .theme-toggle-wrap {
+                display: none;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .status-code {
+                color: #bbb;
+            }
+            .hint {
+                border-color: #aaa;
+                background: #eee;
+                color: #005cc5;
+            }
+            .divider {
+                background: #aaa;
+            }
+            .footer-note {
+                color: #555;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== Theme Toggle ===== -->
+    <div class="theme-toggle-wrap">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换主题">
+            <!-- 太阳图标 (深色模式显示) -->
+            <svg class="icon-sun" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M8 1.5a.75.75 0 0 1 .75.75v1a.75.75 0 0 1-1.5 0v-1A.75.75 0 0 1 8 1.5ZM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm0-1.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3ZM12.773 3.227a.75.75 0 0 1 0 1.06l-.707.707a.75.75 0 0 1-1.06-1.06l.707-.707a.75.75 0 0 1 1.06 0ZM3.227 3.227a.75.75 0 0 1 1.06 0l.707.707a.75.75 0 0 1-1.06 1.06l-.707-.707a.75.75 0 0 1 0-1.06ZM1.5 8a.75.75 0 0 1 .75-.75h1a.75.75 0 0 1 0 1.5h-1A.75.75 0 0 1 1.5 8ZM12.5 8a.75.75 0 0 1 .75-.75h1a.75.75 0 0 1 0 1.5h-1A.75.75 0 0 1 12.5 8ZM4.994 11.703a.75.75 0 0 1 0 1.06l-.707.707a.75.75 0 0 1-1.06-1.06l.707-.707a.75.75 0 0 1 1.06 0ZM11.713 11.703a.75.75 0 0 1 1.06 0l.707.707a.75.75 0 0 1-1.06 1.06l-.707-.707a.75.75 0 0 1 0-1.06ZM8 12.5a.75.75 0 0 1 .75.75v1a.75.75 0 0 1-1.5 0v-1a.75.75 0 0 1 .75-.75Z"/>
+            </svg>
+            <!-- 月亮图标 (浅色模式显示) -->
+            <svg class="icon-moon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M9.598 1.591a.749.749 0 0 1 .785-.175 7.001 7.001 0 1 1-8.967 8.967.751.751 0 0 1 .511-.91 5.502 5.502 0 0 0 4.255-6.784.752.752 0 0 1 .416-.878l.003-.002.014-.006.053-.024a3.792 3.792 0 0 1 .635-.198 6.947 6.947 0 0 1 2.295 0 4.09 4.09 0 0 1 .588.152l.046.017.015.007.004.002Zm-1.373.828a5.522 5.522 0 0 0-1.144-.044 5.466 5.466 0 0 0-.456.097 7.013 7.013 0 0 1-4.658 7.52 5.54 5.54 0 0 0 1.566.312 5.507 5.507 0 0 0 5.472-5.89 5.53 5.53 0 0 0-.78-1.995Z"/>
+            </svg>
+            <span class="label-text" id="toggleLabel">切换到深色模式</span>
+        </button>
+    </div>
+
+    <!-- ===== Main Content ===== -->
+    <main class="container" role="main">
+        <div class="status-code" aria-hidden="true">500</div>
+        <h1 class="title">服务暂不可用</h1>
+        <div class="description">
+            <p>服务器当前无法处理您的请求，<br />可能是由于访问量过大或内部错误导致。</p>
+        </div>
+        <div class="divider" role="presentation"></div>
+        <span class="hint">请稍后重试</span>
+        <div style="margin-top: 44px;">
+            <p class="footer-note">
+                如果问题持续存在，请联系网站管理员
+            </p>
+        </div>
+    </main>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const STORAGE_KEY = 'theme-preference';
+            const html = document.documentElement;
+            const toggleBtn = document.getElementById('themeToggle');
+            const toggleLabel = document.getElementById('toggleLabel');
+
+            // 获取当前实际主题 (light / dark)
+            function getEffectiveTheme() {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored === 'light' || stored === 'dark') {
+                    return stored;
+                }
+                // 跟随系统
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    return 'dark';
+                }
+                return 'light';
+            }
+
+            // 设置主题
+            function setTheme(theme) {
+                html.setAttribute('data-theme', theme);
+                // 更新按钮文字
+                const next = theme === 'light' ? 'dark' : 'light';
+                const label = next === 'dark' ? '切换到深色模式' : '切换到浅色模式';
+                toggleLabel.textContent = label;
+                // aria-label 也更新
+                toggleBtn.setAttribute('aria-label', label);
+            }
+
+            // 保存并应用主题
+            function applyTheme(theme) {
+                localStorage.setItem(STORAGE_KEY, theme);
+                setTheme(theme);
+            }
+
+            // 切换主题
+            function toggleTheme() {
+                const current = getEffectiveTheme();
+                const next = current === 'light' ? 'dark' : 'light';
+                applyTheme(next);
+            }
+
+            // 初始化
+            function init() {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored === 'light' || stored === 'dark') {
+                    setTheme(stored);
+                } else {
+                    // 跟随系统
+                    const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    setTheme(systemDark ? 'dark' : 'light');
+                }
+
+                // 监听系统主题变化 (仅当用户未手动保存偏好时)
+                if (window.matchMedia) {
+                    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+                    const handler = function(e) {
+                        const saved = localStorage.getItem(STORAGE_KEY);
+                        if (!saved) {
+                            setTheme(e.matches ? 'dark' : 'light');
+                        }
+                    };
+                    // 兼容旧浏览器
+                    if (mq.addEventListener) {
+                        mq.addEventListener('change', handler);
+                    } else if (mq.addListener) {
+                        mq.addListener(handler);
+                    }
+                }
+
+                // 绑定切换事件
+                toggleBtn.addEventListener('click', toggleTheme);
+
+                // 暴露当前主题给开发者工具调试 (非必须)
+                window.__theme = {
+                    getCurrent: getEffectiveTheme,
+                    set: applyTheme,
+                    toggle: toggleTheme,
+                };
+            }
+
+            // DOM 准备好后初始化
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+
+</body>
+</html>
