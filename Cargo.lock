@@ -440,6 +440,7 @@ version = "0.1.0"
 dependencies = [
  "actix-files",
  "actix-identity",
+ "actix-session",
  "actix-web",
  "clap",
  "colored",
